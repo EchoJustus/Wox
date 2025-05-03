@@ -7,14 +7,14 @@ on:
 
 jobs:
   test:
-    runs-on: [ self-hosted ]
+    runs-on: [ windows-latest ]
     steps:
       - uses: actions/checkout@v3
       - name: Test
         run: make test
 
   build:
-    name: Build ${{ matrix.os }} ${{ matrix.arch }}
+    name: Build WindowsX64
     needs: test
     strategy:
       matrix:
@@ -35,7 +35,6 @@ jobs:
           #   needs_keychain: true
           - os: Windows
             arch: AMD64
-            runner: [ self-hosted, Windows ]
             asset_path: ./release/wox-windows-amd64.exe
             asset_name: wox-windows-amd64.exe
             content_type: application/x-msdownload
@@ -45,7 +44,7 @@ jobs:
           #   asset_path: ./release/wox-linux-amd64
           #   asset_name: wox-linux-amd64
           #   content_type: application/x-msdownload
-    runs-on: ${{ matrix.runner }}
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
       - name: Build
