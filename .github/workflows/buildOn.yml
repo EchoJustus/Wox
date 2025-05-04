@@ -48,7 +48,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: choco install cygwin -y
-      - run: cygwin && pwd && cd "C:"  && ls
+      - run: C:\ProgramData\chocolatey\bin\Cygwin.exe
+      - run: pwd && cd "C:"  && ls
       - run: powershell && pwd && git config --global core.progress false 
       - run: choco feature disable -n showDownloadProgress
       - run: choco install flutter -y  --limit-output
