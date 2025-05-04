@@ -47,9 +47,13 @@ jobs:
     runs-on: windows-2025
     steps:
       - uses: actions/checkout@v3
-      - run: powershell && pwd && git config --global core.progress false
+      - run: powershell && pwd && git config --global core.progress false && echo $ENV:PATH
       - run: choco feature disable -n showDownloadProgress
       - run: choco install flutter -y  --limit-output
+      - run: echo $ENV:PATH 
+      - run: if (-not (    ([Environment]::GetEnvironmentVariable("Path", "Machine").Split(';') -contains "C:\tools\flutter\bin") -or ([Environment]::GetEnvironmentVariable("Path", "Machine").Split(';') -contains "C:\tools\flutter\bin\\")     )) {      [Environment]::SetEnvironmentVariable("Path", ([Environment]::GetEnvironmentVariable("Path", "Machine") + ";C:\tools\flutter\bin"), "Machine") }
+      - run: Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1 && refreshenv 
+      - run: echo $ENV:PATH
       - run: ls C:\tools\flutter\bin\
       - run: C:\tools\flutter\bin\flutter config  --no-enable-fuchsia  --no-enable-ios  --no-enable-macos-desktop  --no-enable-linux-desktop
       - run: C:\tools\flutter\bin\flutter doctor
