@@ -1,0 +1,70 @@
+name: Build.Echo
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  # test:
+  #   runs-on: [ windows-latest ]
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Test
+  #       run: make test
+
+  build:
+    name: Build WindowsX64
+    runs-on: windows-2025
+    steps:
+      - uses: actions/checkout@v3
+      # - run: choco install cygwin -y &&  C:\tools\cygwin\Cygwin.bat
+      - name: Add flutter bin to PATH
+        shell: pwsh   
+        run: Add-Content -Path $env:GITHUB_PATH -Value "C:\tools\flutter\bin"
+      # - shell: pwsh
+      #   run: echo $ENV:PATH 
+      - run: powershell && pwd && git config --global core.progress false 
+      - run: choco install nuget.commandline  -y  --limit-output
+      - run: choco feature disable -n showDownloadProgress
+      - run: git clone -b stable https://github.com/flutter/flutter.git C:\tools\flutter
+      - run: if (-not (    ([Environment]::GetEnvironmentVariable("Path", "Machine").Split(';') -contains "C:\tools\flutter\bin") -or ([Environment]::GetEnvironmentVariable("Path", "Machine").Split(';') -contains "C:\tools\flutter\bin\\")     )) {      [Environment]::SetEnvironmentVariable("Path", ([Environment]::GetEnvironmentVariable("Path", "Machine") + ";C:\tools\flutter\bin"), "Machine") }
+      # - run: New-Item -ItemType Hardlink -Path "C:\ProgramData\Chocolatey\bin" -Name "flutter" -Target "C:\tools\flutter\bin\flutter"
+      # - run: New-Item -ItemType Hardlink -Path "C:\ProgramData\Chocolatey\bin" -Name "flutter.bat" -Target "C:\tools\flutter\bin\flutter.bat"
+      # - run: New-Item -ItemType Hardlink -Path "C:\ProgramData\Chocolatey\bin" -Name "dart" -Target "C:\tools\flutter\bin\dart"
+      # - run: New-Item -ItemType Hardlink -Path "C:\ProgramData\Chocolatey\bin" -Name "dart.bat" -Target "C:\tools\flutter\bin\dart.bat"
+      # - run: Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1 && refreshenv
+      # - run: Set-Alias flutter C:\tools\flutter\bin\flutter &&  Set-Alias dart C:\tools\flutter\bin\dart
+      # - run: echo 'alias  flutter="/C/tools/flutter/bin/flutter"' >> ~/.bashrc 
+      # - run: echo 'alias  dart="/C/tools/flutter/bin/dart"' >> ~/.bashrc 
+      - run: flutter config  --no-enable-fuchsia  --no-enable-ios  --no-enable-macos-desktop  --no-enable-linux-desktop
+      - run: flutter doctor
+      - run: choco install fnm -y  --limit-output
+      - run: fnm install 22 && npm -v && npm -v
+      - run: npm install -g pnpm
+      - run: choco install python -y --limit-output && where.exe python && python --version
+      # - run: choco install git -y --limit-output
+      - run: choco install golang -y --limit-output && where.exe go && go version
+      - run: powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+      - run: choco install upx -y --limit-output
+      - name: Add flutter bin to PATH
+        shell: pwsh   
+        run: Add-Content -Path $env:GITHUB_PATH -Value "C:\tools\flutter\bin"
+      - name: Build
+        shell: pwsh
+        run: make build
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: wox-windows-amd64.exe
+          path: ./release/wox-windows-amd64.exe
+          retention-days: 3
+      # - name: Deploy nightly release
+      #   uses: WebFreak001/deploy-nightly@v3.0.0
+      #   with:
+      #     upload_url: https://uploads.github.com/repos/Wox-launcher/Wox/releases/127182165/assets{?name,label}
+      #     release_id: 127182165
+      #     asset_path: ${{ matrix.asset_path }}
+      #     asset_name: ${{ matrix.asset_name }}
+      #     asset_content_type: ${{ matrix.content_type }}
+      #     max_releases: 1
