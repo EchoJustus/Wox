@@ -19,6 +19,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       # - run: choco install cygwin -y &&  C:\tools\cygwin\Cygwin.bat
+      - name: Add flutter bin to PATH
+        shell: pwsh   
+        run: Add-Content -Path $env:GITHUB_PATH -Value "C:\tools\flutter\bin"
+      - shell: pwsh
+        run: echo $ENV.PATH 
       - run: powershell && pwd && git config --global core.progress false 
       - run: choco install nuget.commandline  -y  --limit-output
       - run: choco feature disable -n showDownloadProgress
@@ -40,7 +45,7 @@ jobs:
       - run: fnm install 22 && npm -v && npm -v
       - run: npm install -g pnpm
       - run: choco install python -y --limit-output && where.exe python && python --version
-      - run: choco install git -y --limit-output
+      # - run: choco install git -y --limit-output
       - run: choco install golang -y --limit-output && where.exe go && go version
       - run: powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
       - run: choco install upx -y --limit-output
@@ -50,7 +55,6 @@ jobs:
       - name: Build
         shell: pwsh
         run: make build
-
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
