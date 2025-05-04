@@ -65,7 +65,7 @@ jobs:
       - run: fnm install 22 && npm -v && npm -v
       - run: npm install -g pnpm
       - run: choco install python -y --limit-output && where.exe python && python --version
-      # - run: choco install git -y --limit-output
+      - run: choco install git -y --limit-output
       - run: choco install golang -y --limit-output && where.exe go && go version
       - run: powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
       - run: choco install upx -y --limit-output
