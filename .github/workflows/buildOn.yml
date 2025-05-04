@@ -48,6 +48,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: powershell && pwd
+      - run: choco install flutter -y
+      - run: exit
+      - run: powershell && where.exe flutter
+      - run: C:\tools\flutter\bin\flutter config  --no-enable-fuchsia  --no-enable-ios  --no-enable-macos-desktop  --no-enable-linux-desktop
+      - run: C:\tools\flutter\bin\flutter doctor
       - run: choco install fnm -y  --limit-output
       - run: fnm install 22 && npm -v && npm -v
       - run: npm install -g pnpm
@@ -58,9 +63,6 @@ jobs:
       - run: choco install golang -y --limit-output && where.exe go && go version
       - run: powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
       - run: choco install upx -y --limit-output
-      - run: choco install flutter -y && refreshenv
-      - run: flutter config  --no-enable-fuchsia  --no-enable-ios  --no-enable-macos-desktop  --no-enable-linux-desktop
-      - run: flutter doctor
       - run: bash
       - name: Build
         run: make build
