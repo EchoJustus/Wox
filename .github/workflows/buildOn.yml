@@ -47,22 +47,22 @@ jobs:
     runs-on: windows-2025
     steps:
       - uses: actions/checkout@v3
-      - run: pwd
-      - run: choco install python -y
+      - run:  choco install nodejs-lts --version="22" -y 
+      - run: choco install python -y --limit-output
       - run: where.exe python
       - run: python --version
-      - run: choco install nodejs-lts -y
+
       - run: npm install -g pnpm
       # - run: choco install cygwin -y
       - run: where.exe bash
       - run: bash --version
-      - run: choco install git -y
-      - run: choco install golang -y
+      # - run: choco install git -y --limit-output
+      - run: choco install golang -y --limit-output
       - run: where.exe go
       - run: go version
       - run: powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-      - run: choco install upx -y
-      - run: choco install flutter -y
+      - run: choco install upx -y --limit-output
+      - run: choco install flutter -y 
       - run: flutter config  --no-enable-fuchsia  --no-enable-ios  --no-enable-macos-desktop  --no-enable-linux-desktop
       - run: flutter doctor
       - run: bash
