@@ -23,7 +23,7 @@ jobs:
         shell: pwsh   
         run: Add-Content -Path $env:GITHUB_PATH -Value "C:\tools\flutter\bin"
       - shell: pwsh
-        run: echo $ENV.PATH 
+        run: echo $ENV:PATH 
       - run: powershell && pwd && git config --global core.progress false 
       - run: choco install nuget.commandline  -y  --limit-output
       - run: choco feature disable -n showDownloadProgress
