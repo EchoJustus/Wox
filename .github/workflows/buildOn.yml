@@ -47,19 +47,17 @@ jobs:
     runs-on: windows-2025
     steps:
       - uses: actions/checkout@v3
-      - name: Devinstall
-        run: 
-          pwd
-          choco install python -y
-          where.exe python
-          python --version
-          choco install cygwin -y
-          where.exe bash
-          bash --version
-          choco install git -y
-          choco install golang -y
-          where.exe go
-          go version
+      - run: pwd
+      - run: choco install python -y
+      - run: where.exe python
+      - run: python --version
+      - run: choco install cygwin -y
+      - run: where.exe bash
+      - run: bash --version
+      - run: choco install git -y
+      - run: choco install golang -y
+      - run: where.exe go
+      - run: go version
       - name: Build
         run: make build
         env:
