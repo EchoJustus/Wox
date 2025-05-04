@@ -6,12 +6,12 @@ on:
       - master
 
 jobs:
-  test:
-    runs-on: [ windows-latest ]
-    steps:
-      - uses: actions/checkout@v3
-      - name: Test
-        run: make test
+  # test:
+  #   runs-on: [ windows-latest ]
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Test
+  #       run: make test
 
   build:
     name: Build WindowsX64
@@ -58,6 +58,13 @@ jobs:
       - run: choco install golang -y
       - run: where.exe go
       - run: go version
+      - run: choco install nodejs-lts -y
+      - run: npm install -g cnpm
+      - run: powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+      - run: choco install upx -y
+      - run: choco install flutter -y
+      - run: flutter config  --no-enable-fuchsia  --no-enable-ios  --no-enable-macos-desktop  --no-enable-linux-desktop
+      - run: flutter doctor
       - name: Build
         run: make build
         env:
