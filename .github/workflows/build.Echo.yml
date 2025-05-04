@@ -53,11 +53,12 @@ jobs:
       - run: choco install nuget.commandline  -y  --limit-output
       - run: choco feature disable -n showDownloadProgress
       - run: if (-not (    ([Environment]::GetEnvironmentVariable("Path", "Machine").Split(';') -contains "C:\tools\flutter\bin") -or ([Environment]::GetEnvironmentVariable("Path", "Machine").Split(';') -contains "C:\tools\flutter\bin\\")     )) {      [Environment]::SetEnvironmentVariable("Path", ([Environment]::GetEnvironmentVariable("Path", "Machine") + ";C:\tools\flutter\bin"), "Machine") }
-      - run: New-Item -ItemType Hardlink -Path "C:\ProgramData\Chocolatey\bin" -Name "flutter" -Target "C:\tools\flutter\bin\flutter"
-      - run: New-Item -ItemType Hardlink -Path "C:\ProgramData\Chocolatey\bin" -Name "flutter.bat" -Target "C:\tools\flutter\bin\flutter.bat"
-      - run: New-Item -ItemType Hardlink -Path "C:\ProgramData\Chocolatey\bin" -Name "dart" -Target "C:\tools\flutter\bin\dart"
-      - run: New-Item -ItemType Hardlink -Path "C:\ProgramData\Chocolatey\bin" -Name "dart.bat" -Target "C:\tools\flutter\bin\dart.bat"
-      - run: Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1 && refreshenv 
+      # - run: New-Item -ItemType Hardlink -Path "C:\ProgramData\Chocolatey\bin" -Name "flutter" -Target "C:\tools\flutter\bin\flutter"
+      # - run: New-Item -ItemType Hardlink -Path "C:\ProgramData\Chocolatey\bin" -Name "flutter.bat" -Target "C:\tools\flutter\bin\flutter.bat"
+      # - run: New-Item -ItemType Hardlink -Path "C:\ProgramData\Chocolatey\bin" -Name "dart" -Target "C:\tools\flutter\bin\dart"
+      # - run: New-Item -ItemType Hardlink -Path "C:\ProgramData\Chocolatey\bin" -Name "dart.bat" -Target "C:\tools\flutter\bin\dart.bat"
+      - run: Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1 && refreshenv
+      - run: Set-Alias flutter C:\tools\flutter\bin\flutter &&  Set-Alias dart C:\tools\flutter\bin\dart
       - run: echo $ENV:PATH
       - run: C:\tools\flutter\bin\flutter config  --no-enable-fuchsia  --no-enable-ios  --no-enable-macos-desktop  --no-enable-linux-desktop
       - run: C:\tools\flutter\bin\flutter doctor
