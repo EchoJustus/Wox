@@ -15,7 +15,7 @@ jobs:
 
   build:
     name: Build WindowsX64
-    needs: test
+    # needs: test
     strategy:
       matrix:
         include:
@@ -44,7 +44,7 @@ jobs:
           #   asset_path: ./release/wox-linux-amd64
           #   asset_name: wox-linux-amd64
           #   content_type: application/x-msdownload
-    runs-on: windows-latest
+    runs-on: windows-2025
     steps:
       - uses: actions/checkout@v3
       - name: Devinstall
