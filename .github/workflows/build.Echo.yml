@@ -16,9 +16,6 @@ jobs:
   build:
     name: Build WindowsX64
     runs-on: windows-2025
-    env:
-      MY_VAR: "Hello, World!"
-      PATH: "C:\\tools\\flutter\\bin;${{ env.PATH }}"
     steps:
       - uses: actions/checkout@v3
       # - run: choco install cygwin -y &&  C:\tools\cygwin\Cygwin.bat
@@ -47,16 +44,18 @@ jobs:
       - run: choco install golang -y --limit-output && where.exe go && go version
       - run: powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
       - run: choco install upx -y --limit-output
-      - run: where.exe bash && bash --version
-            # - run: choco install cygwin -y
+      - name: Add flutter bin to PATH
+        shell: pwsh   
+        run: Add-Content -Path $env:GITHUB_PATH -Value "C:\tools\flutter\bin"
       - name: Build
+        shell: pwsh
         run: make build
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.asset_name }}
-          path: ${{ matrix.asset_path }}
+          name: wox-windows-amd64.exe
+          path: ./release/wox-windows-amd64.exe
           retention-days: 3
       # - name: Deploy nightly release
       #   uses: WebFreak001/deploy-nightly@v3.0.0
