@@ -63,7 +63,7 @@ plugins:
 dev: _check_deps
 	# Install lefthook
 	go install github.com/evilmartians/lefthook@latest
-	lefthook install -f
+	# lefthook install -f
 
 	# Build hosts and flutter
 	$(MAKE) -C wox.plugin.host.nodejs build
