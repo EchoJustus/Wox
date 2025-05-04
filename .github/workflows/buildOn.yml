@@ -58,8 +58,7 @@ jobs:
       - run: choco install golang -y --limit-output && where.exe go && go version
       - run: powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
       - run: choco install upx -y --limit-output
-      - run: choco install flutter -y 
-      - run: $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
+      - run: choco install flutter -y && refreshenv
       - run: flutter config  --no-enable-fuchsia  --no-enable-ios  --no-enable-macos-desktop  --no-enable-linux-desktop
       - run: flutter doctor
       - run: bash
