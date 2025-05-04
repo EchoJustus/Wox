@@ -59,8 +59,8 @@ jobs:
       # - run: New-Item -ItemType Hardlink -Path "C:\ProgramData\Chocolatey\bin" -Name "dart.bat" -Target "C:\tools\flutter\bin\dart.bat"
       # - run: Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1 && refreshenv
       # - run: Set-Alias flutter C:\tools\flutter\bin\flutter &&  Set-Alias dart C:\tools\flutter\bin\dart
-      - run: echo 'alias  flutter="/C/tools/flutter/bin/flutter"' >> ~/bashrc 
-      - run: echo 'alias  dart="/C/tools/flutter/bin/dart"' >> ~/bashrc 
+      - run: echo 'alias  flutter="/C/tools/flutter/bin/flutter"' >> ~/.bashrc 
+      - run: echo 'alias  dart="/C/tools/flutter/bin/dart"' >> ~/.bashrc 
       - run: echo $ENV:PATH
       - run: C:\tools\flutter\bin\flutter config  --no-enable-fuchsia  --no-enable-ios  --no-enable-macos-desktop  --no-enable-linux-desktop
       - run: C:\tools\flutter\bin\flutter doctor
