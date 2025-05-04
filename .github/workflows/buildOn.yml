@@ -50,7 +50,6 @@ jobs:
       - run: powershell && pwd && git config --global core.progress false 
       - run: choco feature disable -n showDownloadProgress
       - run: choco install flutter -y  --limit-output
-      - run: echo 
       - run: if (-not (    ([Environment]::GetEnvironmentVariable("Path", "Machine").Split(';') -contains "C:\tools\flutter\bin") -or ([Environment]::GetEnvironmentVariable("Path", "Machine").Split(';') -contains "C:\tools\flutter\bin\\")     )) {      [Environment]::SetEnvironmentVariable("Path", ([Environment]::GetEnvironmentVariable("Path", "Machine") + ";C:\tools\flutter\bin"), "Machine") }
       - run: New-Item -ItemType Hardlink -Path "C:\ProgramData\Chocolatey\bin" -Name "flutter" -Target "C:\tools\flutter\bin\flutter"
       - run: New-Item -ItemType Hardlink -Path "C:\ProgramData\Chocolatey\bin" -Name "flutter.bat" -Target "C:\tools\flutter\bin\flutter.bat"
