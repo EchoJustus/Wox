@@ -48,9 +48,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: powershell && pwd
-      - run: choco install flutter -y
-      - run: exit
-      - run: powershell && where.exe flutter
+      - run: choco install flutter -y  --limit-output
       - run: C:\tools\flutter\bin\flutter config  --no-enable-fuchsia  --no-enable-ios  --no-enable-macos-desktop  --no-enable-linux-desktop
       - run: C:\tools\flutter\bin\flutter doctor
       - run: choco install fnm -y  --limit-output
