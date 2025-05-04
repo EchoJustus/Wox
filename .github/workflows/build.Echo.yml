@@ -48,11 +48,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       # - run: choco install cygwin -y &&  C:\tools\cygwin\Cygwin.bat
-      - run: pwd && where.exe make
+      - run: git clone -b stable https://github.com/flutter/flutter.git C:\tools\flutter
       - run: powershell && pwd && git config --global core.progress false 
       - run: choco install nuget.commandline  -y  --limit-output
       - run: choco feature disable -n showDownloadProgress
-      - run: choco install flutter -y  --limit-output
       - run: if (-not (    ([Environment]::GetEnvironmentVariable("Path", "Machine").Split(';') -contains "C:\tools\flutter\bin") -or ([Environment]::GetEnvironmentVariable("Path", "Machine").Split(';') -contains "C:\tools\flutter\bin\\")     )) {      [Environment]::SetEnvironmentVariable("Path", ([Environment]::GetEnvironmentVariable("Path", "Machine") + ";C:\tools\flutter\bin"), "Machine") }
       - run: New-Item -ItemType Hardlink -Path "C:\ProgramData\Chocolatey\bin" -Name "flutter" -Target "C:\tools\flutter\bin\flutter"
       - run: New-Item -ItemType Hardlink -Path "C:\ProgramData\Chocolatey\bin" -Name "flutter.bat" -Target "C:\tools\flutter\bin\flutter.bat"
